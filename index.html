@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Nhóm 03 - Travel Việt</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="css/animate.min.css" type="text/css">
+    <!-- Custom CSS -->
+    <link href="css/full-width-pics.css" rel="stylesheet">
+    <!-- my css -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/footerstyle.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/mustache.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <!-- Logo -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="./index.html"><img src="img/logo.png" /></a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <!-- Menu Direction -->
+                <ul class="nav navbar-nav">
+                    <li style="border-left: 1px solid #fff;">
+                        <a href="./index.html">Trang chủ</a>
+                    </li>
+                    <li>
+                        <a href="#">Địa điểm</a>
+                    </li>
+                    <li>
+                        <a href="#">Giới thiệu</a>
+                    </li>
+                    <li>
+                        <a href="#">Đăng nhập</a>
+                    </li>
+                </ul>
+                <!-- Searching -->
+                <div class="col-md-3">
+                    <div class="input-group" id="adv-search">
+                        <input type="text" class="form-control" placeholder="Địa điểm tìm kiếm..." id="txt_search" style="width:100%">
+                        <div class="input-group-btn">
+                            <div class="btn-group" role="group">
+                                <div class="dropdown dropdown-lg">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-filter" aria-hidden="true"></i> &nbsp;Bộ lọc</button>
+                                    <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <!-- tabs left -->
+                                        <form class="form-horizontal" role="form">
+                                            <div class="tabbable tabs-left">
+                                                <ul class="nav nav-tabs">
+                                                    <li class="active" tab_id="a"><a href="#a" data-toggle="tab"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;Đối tượng</a></li>
+                                                    <li tab_id="b"><a href="#b" data-toggle="tab"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;Tỉnh/thành</a></li>
+                                                    <li tab_id="c"><a href="#c" data-toggle="tab"><i class="glyphicon glyphicon-road" aria-hidden="true"></i>&nbsp;&nbsp;Địa hình</a></li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active col-md-12" id="a">
+                                                        <div class="checkbox checkbox-success col-md-12 listdoituong">
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="checkboxsong" type="checkbox" name="Cặp đôi">
+                                                                    <label for="checkboxsong">Cặp đôi</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="checkboxdoinui" type="checkbox" name="Gia đình">
+                                                                    <label for="checkboxdoinui">Gia đình</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="checkboxdongbang" type="checkbox" name="Bạn bè">
+                                                                    <label for="checkboxdongbang">Bạn bè</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane col-md-12" id="b">
+                                                        <div class="checkbox checkbox-success col-md-12 listtinhthanh">
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="checkboxtphcm" type="checkbox" name="TP.HCM">
+                                                                    <label for="checkboxtphcm">TP.HCM</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="checkboxhanoi" type="checkbox" name="Hà Nội">
+                                                                    <label for="checkboxhanoi">Hà Nội</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="checkboxhue" type="checkbox" name="Huế">
+                                                                    <label for="checkboxhue">Huế</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="checkboxangiang" type="checkbox" name="An Giang">
+                                                                    <label for="checkboxangiang">An Giang</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="checkboxbinhduong" type="checkbox" name="Bình Dương">
+                                                                    <label for="checkboxbinhduong">Bình Dương</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="checkboxdienbien" type="checkbox" name="Điện Biên">
+                                                                    <label for="checkboxdienbien">Điện Biên</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="checkboxbacgiang" type="checkbox" name="Bắc Giang">
+                                                                    <label for="checkboxbacgiang">Bắc Giang</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="checkboxbinhphuoc" type="checkbox" name="Bình Phước">
+                                                                    <label for="checkboxbinhphuoc">Bình Phước</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="checkboxdongnai" type="checkbox" name="Đồng Nai">
+                                                                    <label for="checkboxdongnai">Đồng nai</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="1" type="checkbox" name="Bắc Cạn">
+                                                                    <label for="1">Bắc Cạn</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="2" type="checkbox" name="Bình Thuận">
+                                                                    <label for="2">Bình Thuận</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="3" type="checkbox" name="Đồng Tháp">
+                                                                    <label for="3">Đồng Tháp</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="4" type="checkbox" name="Bạc Liêu">
+                                                                    <label for="4">Bạc Liêu</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="5" type="checkbox" name="Cà Mau">
+                                                                    <label for="5">Cà Mau</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="6" type="checkbox" name="Gia Lai">
+                                                                    <label for="6">Gia Lai</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="7" type="checkbox" name="Bến Tre">
+                                                                    <label for="7">Bến Tre</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="8" type="checkbox" name="Cao Bằng">
+                                                                    <label for="8">Cao Bằng</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="9" type="checkbox" name="Khánh Hoà">
+                                                                    <label for="9">Khánh Hòa</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="10" type="checkbox" name="Bình Định">
+                                                                    <label for="10">Bình Định</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="11" type="checkbox" name="Đắk Lắk">
+                                                                    <label for="11">Đắk Lắk</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="12" type="checkbox" name="Kiên Giang">
+                                                                    <label for="12">Kiên Giang</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="13" type="checkbox" name="Lâm Đồng">
+                                                                    <label for="13">Lâm Đồng</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="14" type="checkbox" name="Gia Lai">
+                                                                    <label for="14">Gia Lai</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="15" type="checkbox" name="Đà Nẵng">
+                                                                    <label for="15">Đà Nẵng</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="16" type="checkbox" name="Hà Tĩnh">
+                                                                    <label for="16">Hà Tĩnh</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="17" type="checkbox" name="Nghệ An">
+                                                                    <label for="17">Nghệ An</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="18" type="checkbox" name="Bảo Lộc">
+                                                                    <label for="18">Bào Lộc</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="19" type="checkbox" name="Tuyên Quang">
+                                                                    <label for="19">Tuyên Quang</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="20" type="checkbox" name="Thái Bình">
+                                                                    <label for="20">Thái Bình</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="21" type="checkbox" name="Tây Bắc">
+                                                                    <label for="21">Tây Bắc</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="22" type="checkbox" name="Lạng Sơn">
+                                                                    <label for="22">Lạng Sơn</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="23" type="checkbox" name="Thanh Hóa">
+                                                                    <label for="23">Thanh Hóa</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="24" type="checkbox" name="Vũng Áng">
+                                                                    <label for="24">Vũng Áng</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane col-lg-12" id="c">
+                                                        <div class="checkbox checkbox-success col-md-12 listdiahinh">
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="111" type="checkbox" name="Núi">
+                                                                    <label for="111">Núi</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="112" type="checkbox" name="Biển">
+                                                                    <label for="112">Biển</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="113" type="checkbox" name="Đồng Bằng">
+                                                                    <label for="113">Đồng Bằng</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4">
+                                                                    <input id="114" type="checkbox" name="Sa Mạc">
+                                                                    <label for="114">Sa Mạc</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="115" type="checkbox" name="Thung Lũng">
+                                                                    <label for="115">Thung Lũng</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input id="116" type="checkbox" name="Hang Động">
+                                                                    <label for="116">Hang Động</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /tabs -->
+                                            <div class="search-action col-md-12">
+                                                <button class="btn btn-success btntimkiem">Tìm kiếm</button>
+                                                <button class="btn btn-danger btnxoaboloc">Xóa bộ lọc</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!--Button Search-->
+                                <button type="button" class="btn btn-default" id="btntimkiem"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /search -->
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- Slider -->
+    <!-- Image backgrounds are set within the full-width-pics.css file. -->
+    <!-- <header class="image-bg-fixed-height slider">
+    </header> -->
+    <!-- Slider -->
+    <div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:1300px;height:500px;overflow:hidden;visibility:hidden;">
+        <!-- Loading Screen -->
+        <div data-u="loading" style="position:absolute;top:0px;left:0px;background-color:rgba(0,0,0,0.7);">
+            <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
+            <div style="position:absolute;display:block;background:url('img/loading.gif') no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
+        </div>
+        <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:1300px;height:500px;overflow:hidden;">
+            <div>
+                <img data-u="image" src="img/slider-4.jpg" />
+                <div class="name-location">Đà Nẵng</div>
+                <div class="info-location">Thành phố Đà Nẵng nằm ở trung độ của Việt Nam. Đà Nẵng còn là trung điểm của các di sản thế giới: Cố đô Huế, Phố cổ Hội An và Thánh địa Mỹ Sơn.</div>
+            </div>
+            <div>
+                <img data-u="image" src="img/slider-1.jpg" />
+                <div class="name-location">Vịnh Hạ Long</div>
+                <div class="info-location">Là trung tâm của một khu vực rộng lớn có những yếu tố ít nhiều tương đồng về địa chất, địa mạo, cảnh quan, khí hậu và văn hóa, với vịnh Bái Tử Long phía Đông Bắc và quần đảo Cát Bà phía Tây Nam, vịnh Hạ Long giới hạn trong diện tích khoảng 1.553 km² bao gồm 1.969 hòn đảo lớn nhỏ, phần lớn là đảo đá vôi</div>
+            </div>
+            <div>
+                <img data-u="image" src="img/slider-3.jpg" />
+                <div class="name-location">SaPa</div>
+                <div class="info-location">Sa Pa nằm trên một mặt bằng ở độ cao 1500 đến 1650 mét ở sườn núi Lô Suây Tông. Đỉnh của núi này có thể nhìn thấy ở phía đông nam của Sa Pa, có độ cao 2228 mét. Từ thị trấn nhìn xuống có Thung lũng Ngòi Dum ở phía đông và Thung lũng Mường Hoa ở phía tây nam.</div>
+            </div>
+            <div>
+                <img data-u="image" src="img/slider-2.jpg" />
+                <div class="name-location">Sơn Đoòng</div>
+                <div class="info-location">Hang Sơn Đoòng được hình thành khoảng 2-5 triệu năm trước, khi nước sông chảy ngang qua vùng đá vôi đã bị vùi lấp dọc theo một đường đứt gãy. Dòng nước làm xói mòn và tạo ra một đường hầm khổng lồ trong lòng đất dưới dãy núi.<br />
+                Hang có chiều rộng 150 mét, cao hơn 200 mét, chiều dài lên tới gần 9 ki-lô-mét. Ước tính dung tích của Hang Sơn Đoòng là 38.5 triệu mét khối.</div>
+            </div>
+        </div>
+        <!-- Bullet Navigator -->
+        <div data-u="navigator" class="jssorb05" style="bottom:16px;right:16px;" data-autocenter="1">
+            <!-- bullet navigator item prototype -->
+            <div data-u="prototype" style="width:16px;height:16px;"></div>
+        </div>
+        <!-- Arrow Navigator -->
+        <span data-u="arrowleft" class="jssora22l" style="top:0px;left:8px;width:40px;height:58px;" data-autocenter="2"></span>
+        <span data-u="arrowright" class="jssora22r" style="top:0px;right:8px;width:40px;height:58px;" data-autocenter="2"></span>
+    </div>
+    <!-- end slider -->
+    <!-- Content Section -->
+    <section>
+        <div class="container-fluid">
+            <div class="row" style="border: 1px solid #f1f1f1; height:600px; padding: 5px 0px">
+                <div class="col-md-2 banner-pr">
+                    <div style="vertical-align: middle;">BANNER</div>
+                </div>
+                <div class="col-md-8">
+                    <div class="filter col-md-12">
+                        <div class="head-result d_resultfilter">
+                            <div class="filter-count">
+                                2 kết quả
+                            </div>
+                            <div class="filter-status-count">
+                                Địa điểm
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="resultnumber">
+                        <div class="items-search doituong">
+                            <div class="keyword">
+                                Đối tượng
+                            </div>
+                            <ul class="filter-list">
+                            </ul>
+                            <img class="image-close-items" src="img/keyword-close-icon.png" />
+                        </div>
+                        <div class="items-search tinhthanh">
+                            <div class="keyword">
+                                Tỉnh/thành
+                            </div>
+                            <ul class="filter-list">
+                            </ul>
+                            <img class="image-close-items" src="img/keyword-close-icon.png" />
+                        </div>
+                        <div class="items-search diahinh">
+                            <div class="keyword">
+                                Địa hình
+                            </div>
+                            <ul class="filter-list">
+                            </ul>
+                            <img class="image-close-items" src="img/keyword-close-icon.png" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="filter-result col-md-12">
+                        <div class="filter-content col-md-12">
+                            <div class="result-item">
+                                <img src="img/vinhhalong.png" />
+                                <div class="content-result-item">
+                                    <div class="header-content-result">
+                                        <span>Vịnh Hạ Long</span>
+                                        <div class="result-rating">
+                                            <span class="fill"></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                    <div class="des-result">
+                                        Vịnh Hạ Long (vịnh nơi rồng đáp xuống) là một vịnh nhỏ thuộc phần bờ tây vịnh Bắc Bộ tại khu vực biển Đông Bắc Việt Nam, bao gồm vùng biển đảo thuộc thành phố Hạ Long, thành phố Cẩm Phả và một phần huyện đảo Vân Đồn của tỉnh Quảng Ninh...<a href="#">Xem Thêm</a>
+                                    </div>
+                                    <div class="result-created">Thông tin đăng ngày 10/04/2017</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter-content col-md-12">
+                            <div class="result-item">
+                                <img src="img/vinh-van-phong.jpg" />
+                                <div class="content-result-item">
+                                    <div class="header-content-result">
+                                        <span>Vịnh Vân Phong</span>
+                                        <div class="result-rating">
+                                            <span class="fill"></span>
+                                            <span class="fill"></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                    <div class="des-result">
+                                       Vịnh Vân Phong có 3 hòn chính là Cổ Cò (Đầm Môn), Bến Gỏi và Hòn Khói. Trong đó vụng Cổ Cò (Đầm Môn) diện tích mặt nước nhỏ, nhưng khá sâu nằm tại phía đông của vịnh, được che chắn bởi một số đảo nhỏ và lớn nên kín gió và yên tĩnh, có thể phát triển du lịch biển hay các dịch vụ sang.<a href="#">Xem Thêm</a>
+                                    </div>
+                                    <div class="result-created">Thông tin đăng ngày 10/04/2017</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 banner-pr">
+                    <div style="vertical-align: middle;">BANNER</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row marginfooter">
+                <div class="col-md-4" style="border-right: 1px solid #fff;">
+                    <p style="font-weight: bold; color: #f1f1f1">Thông tin liên hệ</p>
+                    <span>&nbsp;</span>
+                    <ul>
+                        <li><span class="glyphicon glyphicon-home">&nbsp;</span>ĐH Khoa Học Tự Nhiên: 227 Nguyễn Văn Cừ<br />phường 4, Quận 5 TP. Hồ Chí Minh</span>
+                        </li>
+                        <li><span>&nbsp;</span></li>
+                        <li><span class="glyphicon glyphicon-phone">&nbsp;</span>0128.620.6007</li>
+                        <li><span>&nbsp;</span></li>
+                        <li><span class="glyphicon glyphicon-envelope">&nbsp;</span><a style="color:white" href="mailto:15hcb2ABNPP@gmail.com">15hcb2ABNPP@gmail.com</a> </li>
+                    </ul>
+                </div>
+                <div class="col-md-5" style="border-right: 1px solid #fff;">
+                    <div class="col-md-6">
+                        <li><a style="color:white" href="#"><span>Trang chủ</span></a></li>
+                        <p><span>&nbsp;</span></p>
+                        <li><a style="color:white" href="#"><span>Địa điểm</span></a></li>
+                        <p><span>&nbsp;</span></p>
+                        <li><a style="color:white" href="#"><span>Liên hệ</pan></a></li>
+                        <p><span>&nbsp;</span></p>
+                        <li><a style="color:white" href="#"><span>Giới thiệu</span></a></li>
+                    </div>
+                    <div class="col-md-6">
+                        <li><a style="color:white" href="#"><span>Bản đồ</span></a></li>
+                        <p><span>&nbsp;</span></p>
+                        <li><a style="color:white" href="#"><span>Thông tin hữu ích</span></a></li>
+                        <p><span>&nbsp;</span></p>
+                        <li><a style="color:white" href="#"><span>Kinh nghiệm du lịch</span></a></li>
+                        <p><span>&nbsp;</span></p>
+                        <li><a style="color:white" href="#"><span>FAQ</span></a></li>
+                        <p><span>&nbsp;</span></p>
+                        <p><span>&nbsp;</span></p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <p>Lượng khách truy cập: 20000</p>
+                    <span>&nbsp;</span>
+                    <p>Online: 30</p>
+                    <p><span>&nbsp;</span></p>
+                    <p><span>&nbsp;</span></p>
+                    <ul>
+                        <li><a class="fb" href="http://www.facebook.com" target="_blank"><i></i>&nbsp;</a></li>
+                        <li><a class="fb1" href="https://twitter.com" target="_blank"><i></i>&nbsp;</a></li>
+                        <li><a class="fb2" href="https://plus.google.com" target="_blank"><i></i>&nbsp;</a></li>
+                        <li><a class="fb3" href="https://www.snapchat.com/" target="_blank"><i></i>&nbsp;</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Underscore -->
+    <script src="js/underscore-min.js"></script>
+    <!-- my js -->
+    <script src="js/my.js"></script>
+    <!-- slider script -->
+    <script src="js/jssor.slider-23.1.5.mini.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+
+        var jssor_1_SlideoTransitions = [
+            [{
+                b: 900,
+                d: 2000,
+                x: -379,
+                e: {
+                    x: 7
+                }
+            }],
+            [{
+                b: 900,
+                d: 2000,
+                x: -379,
+                e: {
+                    x: 7
+                }
+            }],
+            [{
+                b: -1,
+                d: 1,
+                o: -1,
+                sX: 2,
+                sY: 2
+            }, {
+                b: 0,
+                d: 900,
+                x: -171,
+                y: -341,
+                o: 1,
+                sX: -2,
+                sY: -2,
+                e: {
+                    x: 3,
+                    y: 3,
+                    sX: 3,
+                    sY: 3
+                }
+            }, {
+                b: 900,
+                d: 1600,
+                x: -283,
+                o: -1,
+                e: {
+                    x: 16
+                }
+            }]
+        ];
+
+        var jssor_1_options = {
+            $AutoPlay: 1,
+            $SlideDuration: 800,
+            $SlideEasing: $Jease$.$OutQuint,
+            $CaptionSliderOptions: {
+                $Class: $JssorCaptionSlideo$,
+                $Transitions: jssor_1_SlideoTransitions
+            },
+            $ArrowNavigatorOptions: {
+                $Class: $JssorArrowNavigator$
+            },
+            $BulletNavigatorOptions: {
+                $Class: $JssorBulletNavigator$
+            }
+        };
+
+        var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
+
+        /*responsive code begin*/
+        /*remove responsive code if you don't want the slider scales while window resizing*/
+        function ScaleSlider() {
+            var refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
+            if (refSize) {
+                refSize = Math.min(refSize, 1920);
+                jssor_1_slider.$ScaleWidth(refSize);
+            } else {
+                window.setTimeout(ScaleSlider, 30);
+            }
+        }
+        ScaleSlider();
+        $(window).bind("load", ScaleSlider);
+        $(window).bind("resize", ScaleSlider);
+        $(window).bind("orientationchange", ScaleSlider);
+        /*responsive code end*/
+    });
+    </script>
+</body>
+
+</html>
