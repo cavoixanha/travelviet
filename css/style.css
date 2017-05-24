@@ -197,6 +197,10 @@ footer {
     font-weight: bold;
 }
 
+.header-content-result > a:hover {
+    text-decoration: none;
+}
+
 .result-rating span {
     display: inline-block;
     float: left;
