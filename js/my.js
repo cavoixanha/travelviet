@@ -12,6 +12,27 @@ function string_vctinh(str, length_str) {
     return str;
 }
 
+function bodauTiengViet(str) {
+    str = str.toLowerCase();
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    str = str.replace(/đ/g, "d");
+    return str;
+}
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
+}
+
 function print_obj(obj) {
     var output = "";
     for (var property in obj) {
@@ -87,6 +108,8 @@ $(function() {
                         jsonData[i]["mo_ta_ngan_gon"] = function() {
                             return string_vctinh(this.mo_ta, 540);
                         };
+
+                        jsonData[i]["ten_dia_diem_ko_dau"] = bodauTiengViet(jsonData[i]["ten_dia_diem"]);
                     }
 
                     for (var dia_diem = jsonData.length - 1; dia_diem >= 0; dia_diem--) {
@@ -105,6 +128,7 @@ $(function() {
         $(this).tab('show');
     });
 
+    // tìm kiếm nâng cao
     $('.btntimkiem').click(function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -180,80 +204,26 @@ $(function() {
 
         $('.dropdown-toggle').click();
 
-        console.log(doituong);
-        console.log(tinhthanh);
-        console.log(diahinh);
 
-        var array_where = [];
+        var array_where = filter_dia_diem_nang_cao(doituong, tinhthanh, diahinh);
 
-        // if (_.isEmpty(doituong)) {
-        //     array_where += jsonData;
-        // } else {
-        //     for (var i = doituong.length - 1; i >= 0; i--) {
-        //         array_where += _.where(jsonData, { doi_tuong: doituong[i] });
-        //     }
-        // }
-
-        var array_where_dt;
-        if (_.isEmpty(doituong)) {
-            array_where_dt = jsonData;
-        } else {
-            array_where_dt = _.filter(jsonData, function(o) {
-                    for (var i = o.doi_tuong.length - 1; i >= 0; i--) {
-                        if (_.contains(doituong, o.doi_tuong[i])) {
-                            return true;
-                        } else {
-                            // return false; // khong return
-                        }
-                        // khong duoc return
-                    }
-                    return false;
-                });
+        var val_search = $("#txt_search").val();
+        var array_where_s = _.where(jsonData, { ten_dia_diem: val_search });
+        if (_.isEmpty(val_search)) {
+            array_where_s = jsonData;
         }
-        print_obj(array_where_dt[0]);
 
-        ///
-        var array_where_tt;
-        if (_.isEmpty(tinhthanh)) {
-            array_where_tt = jsonData;
-        } else {
-            array_where_tt = _.filter(jsonData, function(o) {
-                    if (_.contains(tinhthanh, o.vi_tri_dia_ly)) {
-                        return true;
-                    } else {
-                        // return false; // khong return
-                    }
-                    return false;
-                });
-        }
-        print_obj(array_where_tt[0]);
-
-        ///
-        var array_where_dh;
-        if (_.isEmpty(diahinh)) {
-            array_where_dh = jsonData;
-        } else {
-            array_where_dh = _.filter(jsonData, function(o) {
-                    for (var i = o.loai_dia_hinh.length - 1; i >= 0; i--) {
-                        if (_.contains(diahinh, o.loai_dia_hinh[i])) {
-                            return true;
-                        } else {
-                            // return false; // khong return
-                        }
-                        // khong duoc return
-                    }
-                    return false;
-                });
-        }
-        print_obj(array_where_dh[0]);
-
-        array_where = _.intersection(array_where_dt, array_where_tt, array_where_dh);
-
+        array_where = _.intersection(array_where, array_where_s);
         filter_dia_diem(array_where);
     });
 
+    // tìm kiếm cơ bản
     $('#btntimkiem').click(function() {
-        var array_where = _.where(jsonData, { ten_dia_diem: $("#txt_search").val() });
+        var val_search = bodauTiengViet($("#txt_search").val());
+        var array_where = _.where(jsonData, { ten_dia_diem_ko_dau: val_search });
+        if (_.isEmpty(val_search)) {
+            array_where = jsonData;
+        }
 
         filter_dia_diem(array_where);
     });
@@ -262,8 +232,12 @@ $(function() {
         $.ajax({
             url: 'mst/home.mst',
             dataType: 'html',
-
+            beforeSend: function(xhr) {
+                $('#list_dia_diem').html("<div class=\"row text-center\"><button class=\"btn btn-lg btn-success\" style=\"background-color: #1dbc53\"><span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Loading...</button></div>");
+            },
             success: function(template) {
+                sleep(200);
+
                 for (var i = array_where.length - 1; i >= 0; i--) {
                     array_where[i]["result_rating_html"] = function() {
                         var html = "";
@@ -286,6 +260,7 @@ $(function() {
                     };
                 }
 
+                $("#number-dia-diem").html(array_where.length);
                 $('#list_dia_diem').html("");
 
                 for (var dia_diem = array_where.length - 1; dia_diem >= 0; dia_diem--) {
@@ -297,6 +272,80 @@ $(function() {
         });
     }
 
+    function filter_dia_diem_nang_cao(doituong, tinhthanh, diahinh) {
+        console.log(doituong);
+        console.log(tinhthanh);
+        console.log(diahinh);
+
+        var array_where = [];
+
+        // if (_.isEmpty(doituong)) {
+        //     array_where += jsonData;
+        // } else {
+        //     for (var i = doituong.length - 1; i >= 0; i--) {
+        //         array_where += _.where(jsonData, { doi_tuong: doituong[i] });
+        //     }
+        // }
+
+        var array_where_dt;
+        if (_.isEmpty(doituong)) {
+            array_where_dt = jsonData;
+        } else {
+            array_where_dt = _.filter(jsonData, function(o) {
+                for (var i = o.doi_tuong.length - 1; i >= 0; i--) {
+                    if (_.contains(doituong, o.doi_tuong[i])) {
+                        return true;
+                    } else {
+                        // return false; // khong return
+                    }
+                    // khong duoc return
+                }
+                return false;
+            });
+        }
+        print_obj(array_where_dt[0]);
+
+        ///
+        var array_where_tt;
+        if (_.isEmpty(tinhthanh)) {
+            array_where_tt = jsonData;
+        } else {
+            array_where_tt = _.filter(jsonData, function(o) {
+                if (_.contains(tinhthanh, o.vi_tri_dia_ly)) {
+                    return true;
+                } else {
+                    // return false; // khong return
+                }
+                return false;
+            });
+        }
+        print_obj(array_where_tt[0]);
+
+        ///
+        var array_where_dh;
+        if (_.isEmpty(diahinh)) {
+            array_where_dh = jsonData;
+        } else {
+            array_where_dh = _.filter(jsonData, function(o) {
+                for (var i = o.loai_dia_hinh.length - 1; i >= 0; i--) {
+                    if (_.contains(diahinh, o.loai_dia_hinh[i])) {
+                        return true;
+                    } else {
+                        // return false; // khong return
+                    }
+                    // khong duoc return
+                }
+                return false;
+            });
+        }
+        print_obj(array_where_dh[0]);
+
+        array_where = _.intersection(array_where_dt, array_where_tt, array_where_dh);
+        $("#number-dia-diem").html(array_where.length);
+
+        return array_where;
+    }
+
     $('.btnxoaboloc').click(function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -305,11 +354,69 @@ $(function() {
 
         $('#' + id).find('input[type=checkbox]:checked').removeAttr('checked');
 
+        var doituong = [];
+        $('.listdoituong input:checked').each(function() {
+            doituong.push($(this).attr("name"));
+        });
+        if (doituong.length == 0) {
+            $('.items-search.doituong').hide();
+        }
+
+        var tinhthanh = [];
+        $('.listtinhthanh input:checked').each(function() {
+            tinhthanh.push($(this).attr("name"));
+        });
+        if (tinhthanh.length == 0) {
+            $('.items-search.tinhthanh').hide();
+        }
+
+
+        var diahinh = [];
+        $('.listdiahinh input:checked').each(function() {
+            diahinh.push($(this).attr("name"));
+        });
+        if (diahinh.length == 0) {
+            $('.items-search.diahinh').hide();
+        }
+
+        var array_where = filter_dia_diem_nang_cao(doituong, tinhthanh, diahinh);
+        filter_dia_diem(array_where);
     });
+
+    function remove_filter_theo_loai(j_list, jClose) {
+        j_list.each(function() {
+            $(this).attr('checked', false);
+        });
+    }
+
+    function remove_filter_theo_1_loai_con(j_list, jClose) {
+        j_list.each(function() {
+            if ($(this).attr("name") == jClose.parent().find('span:first').text()) {
+                $(this).attr('checked', false);
+            }
+        });
+        // $('.listtinhthanh input').each(function() {
+        //     if($(this).attr("name") == jClose.parent().find('span:first').text())
+        //     {
+        //         $(this).attr('checked', false);
+        //     }
+        // });
+    }
 
     $('.image-close-items').click(function() {
         $(this).parent().find('.filter-list').empty();
         $(this).parent().css("display", "none");
+
+        if ($(this).parent().hasClass('doituong')) {
+            remove_filter_theo_loai($('.listdoituong input'));
+        } else if ($(this).parent().hasClass('tinhthanh')) {
+            remove_filter_theo_loai($('.listtinhthanh input'));
+        } else if ($(this).parent().hasClass('diahinh')) {
+            debugger;
+            remove_filter_theo_loai($('.listdiahinh input'));
+        }
+
+        $('.btntimkiem').click();
     });
 
     $('body').delegate('.image-close-filter-list', 'click', function() {
@@ -319,7 +426,22 @@ $(function() {
             $(this).closest(".items-search").css("display", "none");
         }
 
+        var jClose = $(this);
+        var j_arr_list = [$('.listdoituong input'), $('.listtinhthanh input'), $('.listdiahinh input')];
+
+        var type = jClose.parent().parent().parent();
+        if (type.hasClass('doituong')) {
+            remove_filter_theo_1_loai_con($('.listdoituong input'), jClose);
+        } else if (type.hasClass('tinhthanh')) {
+            remove_filter_theo_1_loai_con($('.listtinhthanh input'), jClose);
+        } else if (type.hasClass('diahinh')) {
+            debugger;
+            remove_filter_theo_1_loai_con($('.listdiahinh input'), jClose);
+        }
+
         $(this).parent().remove();
+
+        $('.btntimkiem').click();
     });
 
 

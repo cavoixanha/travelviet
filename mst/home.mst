@@ -8,7 +8,7 @@
                     {{{result_rating_html}}}
                 </div>
                 <div class="des-result">
-                    {{mo_ta_ngan_gon}} &nbsp<a href="#">Xem Thêm</a>
+                    {{mo_ta_ngan_gon}} ... &nbsp<a href="#">Xem Thêm</a>
                 </div>
                 <div class="result-created">Thông tin đăng ngày 10/04/2017</div>
             </div>
